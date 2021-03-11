@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
+
 const routes: Routes = [
   {
     path: 'tabs',
@@ -17,14 +18,22 @@ const routes: Routes = [
         loadChildren: () => import('../contact/contact.module').then(m => m.ContactPageModule)
       },
       {
-        path: 'card-deck',
+        path: 'card',
         loadChildren: () => import('../card/card-deck/card-deck.module').then(m => m.CardDeckPageModule)
+      },
+      {
+        path: 'card/:cardId',
+        loadChildren: () => import('../card/card-detail/card-detail.module').then(m => m.CardDetailPageModule)
+      },
+      {
+        path: 'card/:cardDeckGroup/:cardDeck',
+        loadChildren: () => import('../card/card-list/card-list.module').then(m => m.CardListPageModule)
       },
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/card-deck',
+    redirectTo: '/tabs/card',
     pathMatch: 'full'
   }
 ];

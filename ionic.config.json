@@ -1,5 +1,7 @@
 {
   "name": "heartstone",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
