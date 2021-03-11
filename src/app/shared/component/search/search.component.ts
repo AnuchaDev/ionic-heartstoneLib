@@ -11,15 +11,18 @@ export class SearchComponent {
   @Input() filteredProperty: string;
 
   @Output() searchCompleted = new EventEmitter();
+  @Output() searchStarted = new EventEmitter();
+
 
   private searchSubject = new BehaviorSubject<string>('');
 
   handleSearch(event: any) {
+    this.searchStarted.emit();
     this.searchSubject.next(event.target.value);
   }
 
   ngAfterViewInit() {
-    this.searchSubject.pipe().subscribe((searchedText) => {
+    this.searchSubject.pipe(debounceTime(500),distinctUntilChanged()).subscribe((searchedText) => {
       if (!this.items) {
         return this.searchCompleted.emit([]);
       }
@@ -32,7 +35,7 @@ export class SearchComponent {
           .toLowerCase()
           .includes(searchedText.toLowerCase());
       });
-      console.log(filteredItems);
+      this.searchCompleted.emit(filteredItems);
     });
   }
 }

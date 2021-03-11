@@ -16,6 +16,7 @@ export class CardListPage {
   cardDeck: string;
   cards: Card[] = [];
   copyOfCards: Card[] = [];
+  isLoading:boolean= false;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,7 +60,10 @@ export class CardListPage {
 
   hydrateCards(cards: Card[]) {
     this.cards = cards;
+    this.isLoading = false;
   }
-
+  handleSearch(){
+    this.isLoading = true;
+  }
   ngOnInit() {}
 }
