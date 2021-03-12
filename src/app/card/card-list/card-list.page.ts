@@ -1,4 +1,3 @@
-import { FavoriteCardStore } from './../shared/card-favorite.store';
 import { ToastService } from './../../shared/service/toast.service';
 import { LoaderService } from './../../shared/service/loader.service';
 import { CardService } from './../shared/card.service';
@@ -7,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Card } from '../shared/card.model';
 import { LoadingController } from '@ionic/angular';
 import { Storage } from '@ionic/storage'
+import { FavoriteCardStore } from './../shared/card-favorite.store';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -22,6 +22,7 @@ export class CardListPage {
   isLoading:boolean= false;
   favoriteCards :any = {}
   favoriteCardSub:Subscription;
+  limit:number=20;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,7 +96,13 @@ export class CardListPage {
     this.FavoriteCardStore.toggleCard(card);
   }
 
+  loadData(infiniteScroll){
+    setTimeout(()=>{
+      this.limit += 20;
+      infiniteScroll.target.complete();
+    },500)
 
+  }
 
   ngOnInit() {}
 }

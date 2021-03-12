@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{cardDeckGroup}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button icon="arrow-back" defaultHref="/"></ion-back-button>
+      <ion-back-button icon="arrow-back" defaultHref="/app/tabs/card"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -20,7 +20,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list *ngIf="cards.length > 0">
-    <ion-card *ngFor="let card of cards">
+    <ion-card *ngFor="let card of cards | slice:0:limit">
       <ion-card-header text-wrap>
         <ion-card-subtitle>
           {{card.cardSet}}
@@ -33,6 +33,7 @@
             [href]="'/app/tabs/card/'+card.cardId+''"
             size="medium"
             expand="full"
+            color="medium"
           >
             See Detail
           </ion-button>
@@ -40,4 +41,10 @@
       </ion-card-header>
     </ion-card>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
