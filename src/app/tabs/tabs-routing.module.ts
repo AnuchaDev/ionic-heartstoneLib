@@ -14,8 +14,8 @@ const routes: Routes = [
       },
 
       {
-        path: 'contact',
-        loadChildren: () => import('../contact/contact.module').then(m => m.ContactPageModule)
+        path: 'favorite',
+        loadChildren: () => import('../card/card-favorite/card-favorite.module').then(m => m.CardFavoritePageModule)
       },
       {
         path: 'card',
@@ -33,9 +33,10 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/card',
+    redirectTo: 'app/tabs/card',
     pathMatch: 'full'
-  }
+  },
+
 ];
 
 @NgModule({

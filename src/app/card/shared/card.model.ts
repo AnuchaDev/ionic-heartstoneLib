@@ -10,6 +10,7 @@ export interface Card{
   imgGold:string;
   name:string;
   text:string;
+  favorite:boolean;
 
   const:number;
   attack:number;

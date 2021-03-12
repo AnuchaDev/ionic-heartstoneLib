@@ -22,12 +22,15 @@
   <ion-list *ngIf="cards.length > 0">
     <ion-card *ngFor="let card of cards">
       <ion-card-header text-wrap>
-        <ion-card-subtitle> {{card.cardSet}} </ion-card-subtitle>
+        <ion-card-subtitle>
+          {{card.cardSet}}
+          <ion-icon name="flame" [ngClass]="card.favorite? 'favorited' : 'normal'" (click)="favoriteCard(card)" class="like-icon"></ion-icon>
+        </ion-card-subtitle>
         <ion-card-title> {{card.name}} </ion-card-title>
         <ion-card-content>
           <div [innerHTML]="card.text"></div>
           <ion-button
-            [href]="'/tabs/card/'+card.cardId+''"
+            [href]="'/app/tabs/card/'+card.cardId+''"
             size="medium"
             expand="full"
           >

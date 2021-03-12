@@ -35,6 +35,6 @@ export class CardDeckPage {
   }
 
   generateUrl(cardDeckGroup:string,cardDeck:string):string{
-    return `/tabs/card/${cardDeckGroup}/${cardDeck}`
+    return `/app/tabs/card/${cardDeckGroup}/${cardDeck}`
   }
 }

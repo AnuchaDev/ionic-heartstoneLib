@@ -1,3 +1,4 @@
+import { FavoriteCardStore } from './../shared/card-favorite.store';
 import { ToastService } from './../../shared/service/toast.service';
 import { LoaderService } from './../../shared/service/loader.service';
 import { CardService } from './../shared/card.service';
@@ -5,6 +6,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Card } from '../shared/card.model';
 import { LoadingController } from '@ionic/angular';
+import { Storage } from '@ionic/storage'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-card-list',
@@ -17,13 +20,28 @@ export class CardListPage {
   cards: Card[] = [];
   copyOfCards: Card[] = [];
   isLoading:boolean= false;
+  favoriteCards :any = {}
+  favoriteCardSub:Subscription;
 
   constructor(
     private route: ActivatedRoute,
     private cardService: CardService,
     private LoaderService: LoaderService,
-    private ToastService: ToastService
-  ) {}
+    private ToastService: ToastService,
+    private storage:Storage,
+    private FavoriteCardStore:FavoriteCardStore,
+  ) {
+    this.favoriteCardSub = this.FavoriteCardStore.favoriteCards.subscribe((favoriteCards:any)=>{
+      this.favoriteCards = favoriteCards
+    })
+
+
+  }
+  ionViewDidLeave(){
+    if(this.favoriteCardSub && this.favoriteCardSub.closed){
+      this.favoriteCardSub.unsubscribe();
+    }
+  }
   private getCards() {
     this.LoaderService.presentLoading();
 
@@ -31,6 +49,7 @@ export class CardListPage {
       (cards: Card[]) => {
         this.cards = cards.map((card: Card) => {
           card.text = this.cardService.replaceCardTextLine(card.text);
+          card.favorite = this.isCardFavorite(card.cardId)
           return card;
         });
         this.copyOfCards = Array.from(this.cards);
@@ -44,6 +63,12 @@ export class CardListPage {
       }
     );
   }
+
+  private isCardFavorite(cardId:string):boolean{
+    const card = this.favoriteCards[cardId];
+    return card? true : false;
+  }
+
   ionViewWillEnter() {
     this.cardDeckGroup = this.route.snapshot.paramMap.get('cardDeckGroup');
     this.cardDeck = this.route.snapshot.paramMap.get('cardDeck');
@@ -65,5 +90,12 @@ export class CardListPage {
   handleSearch(){
     this.isLoading = true;
   }
+
+  favoriteCard(card:Card){
+    this.FavoriteCardStore.toggleCard(card);
+  }
+
+
+
   ngOnInit() {}
 }

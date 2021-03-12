@@ -1,3 +1,4 @@
+import { FavoriteCardStore } from './../shared/card-favorite.store';
 import { SearchComponent } from './../../shared/component/search/search.component';
 import { ToastService } from './../../shared/service/toast.service';
 import { LoaderService } from './../../shared/service/loader.service';
@@ -26,7 +27,7 @@ import { CardListPage } from './card-list.page';
     CardService,
     LoaderService,
     ToastService,
-
+    FavoriteCardStore,
   ],
   declarations: [CardListPage,
     SearchComponent,
